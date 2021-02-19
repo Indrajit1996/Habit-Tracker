@@ -14,14 +14,11 @@ const helloActions = dispatch => ({
       payload: { value }
     })
   },
-  updateMEssage: (message) => {
-    dispatch({
-      type: actionTypes.hello.UPDATE_MESSAGE,
-      payload: { message },
-    });
-  },
-  toggleReverse: () => {
-    dispatch({ type: actionTypes.hello.TOGGLE_REVERSE });
+  deleteFailedTask: (value) => {
+    dispatch({ 
+      type: actionTypes.habit.FAILED_TASK,
+      payload: { value }
+    })
   },
   clearState: () => {
     dispatch({

@@ -7,6 +7,7 @@ const actionTypes = {
     ADD_HABIT: 'ADD_HABIT',
     DELETE_HABIT: 'DELETE_HABIT',
     CLEAR_STATE: 'CLEAR_STATE',
+    FAILED_TASK: 'FAILED_TASK'
   }
 };
 

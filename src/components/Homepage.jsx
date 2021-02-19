@@ -43,6 +43,7 @@ class Homepage extends Component {
     let element = document.createElement('div');
     element.setAttribute('id', 'notify');
     element.classList.add('notification');
+    element.classList.add('success');
     element.innerHTML = 'Task Completed, Great Job!';
 
     document.getElementById("root").appendChild(element);
@@ -52,6 +53,27 @@ class Homepage extends Component {
       document.getElementById('notify').remove();
     }, 3000);
   }
+
+  removeData = (data) => {
+    this.props.deleteFailedTask(data);
+    
+    this.notifyfailedTask();
+  }
+  notifyfailedTask = () => {
+    let element = document.createElement('div');
+    element.setAttribute('id', 'notify');
+    element.classList.add('notification');
+    element.classList.add('danger');
+    element.innerHTML = 'You have failed to complete the task. Deleting failed tasks!';
+
+    document.getElementById("root").appendChild(element);
+    let timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      document.getElementById('notify').remove();
+    }, 5000);
+  }
+
   
   componentWillUpdate(nextProps, nextState) {
     if((nextProps.tasks.collection.length === 0) && (nextProps.tasks.progress.length > 0)) {
@@ -81,6 +103,7 @@ class Homepage extends Component {
           <DisplayTable
             data={collection}
             updateStatus={this.updateStatus}
+            expiredResult={this.removeData}
          /> : null
         }
         { collection.length || progress.length ?

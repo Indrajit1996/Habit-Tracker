@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Table, 
   TableBody, TableCell,TableContainer, 
@@ -22,12 +22,29 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DisplayTable({data, updateStatus}) {
+export default function DisplayTable({data, updateStatus, expiredResult}) {
   const [show, setShow] = useState(false);
   const [rowClick, setRowClick] = useState({});
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+
+  const checkEveryHour = () => {
+    function itemExpiryCheck() {
+      let end = data.filter((d, index) => {
+        let parsedDate = new Date(d.endDate);
+        return parsedDate < Date.now() ? true : false;
+      });
+      if(end.length) {
+        expiredResult(end);
+      }
+    }
+    const interval = setInterval(itemExpiryCheck, 3600000); // Run the set Interval Every 1 hour.
+    return () => clearInterval(interval);
+  }
+  
+  useEffect(checkEveryHour, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

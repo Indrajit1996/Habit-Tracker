@@ -1,5 +1,6 @@
 import createReducer from '../utils/createReducer';
 import actionTypes from '../consts/actionTypes';
+import {filterList} from '../utils/filterList';
 
 const helloState = {
   collection: [],
@@ -22,11 +23,22 @@ helloReducer[actionTypes.habit.DELETE_HABIT] = (state, { value }) => {
   }
 };
 
-helloReducer[actionTypes.habit.CLEAR_STATE] = (state) => ({
-  ...state,
-  collection: [],
-  progress: []
-});
+helloReducer[actionTypes.habit.FAILED_TASK] = (state, { value }) => {
+  let result =  filterList(state.collection, value);
+  return {
+    ...state,
+    collection: result,
+  }
+  
+};
+
+helloReducer[actionTypes.habit.CLEAR_STATE] = (state) => {
+  return {
+    ...state,
+    collection: [],
+    progress: []
+  }
+}
 
 // helloReducer[actionTypes.habit.DELETE_HABIT] = (state, { row }) => {
 //   return {

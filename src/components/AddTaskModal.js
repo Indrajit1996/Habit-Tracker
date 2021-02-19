@@ -47,7 +47,7 @@ const Modal = ({ onClose }) => {
       let day = date.date();
       let month = date.month() + 1;
       let year = date.year();
-      return `${day}-${month}-${year}`;
+      return `${year}-${month}-${day}`;
     }
   }
   const onDateChange = (startDate, endDate) => {
