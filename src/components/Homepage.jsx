@@ -56,7 +56,7 @@ class Homepage extends Component {
 
   removeData = (data) => {
     this.props.deleteFailedTask(data);
-    
+
     this.notifyfailedTask();
   }
   notifyfailedTask = () => {
@@ -73,11 +73,26 @@ class Homepage extends Component {
       document.getElementById('notify').remove();
     }, 5000);
   }
+  completedAll  = () => {
+    let element = document.createElement('div');
+    element.setAttribute('id', 'notify');
+    element.classList.add('notification');
+    element.classList.add('complete');
+    element.innerHTML = 'Congradulations. Progress is 100% complete';
+
+    document.getElementById("root").appendChild(element);
+    let timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      document.getElementById('notify').remove();
+    }, 3000);
+  }
 
   
   componentWillUpdate(nextProps, nextState) {
     if((nextProps.tasks.collection.length === 0) && (nextProps.tasks.progress.length > 0)) {
       this.props.clearState();
+      this.completedAll()
     }
   }
   

@@ -69,3 +69,9 @@
 .danger {
   background: #e03e3e;
 }
+
+.complete {
+  background: #1bb165;
+  left: 25%;
+  top: 50%;
+}
