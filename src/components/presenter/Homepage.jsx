@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import ModalDialog from './AddTaskModal';
 import { connect } from 'react-redux';
-import taskActions from '../store/actions/taskActions';
+import taskActions from '../../store/actions/taskActions';
 import {Modal, Button} from '@material-ui/core';
 import DisplayTable from './DisplayTable';
 import ProgressReport from './ProgressReport';
-import habitSelector from './selectors/habitSelector';
+import habitSelector from '../selectors/habitSelector';
 import { v4 as uuidv4 } from 'uuid';
-import './css/homepage.css';
+import '../css/homepage.css';
 
 class Homepage extends Component {
   constructor(props) {
@@ -37,48 +37,42 @@ class Homepage extends Component {
   updateStatus = (value ,row) => {
     this.props.updateRow(row);
 
-    this.notifyUser();
+    this.notifyUser("success");
   }
-  notifyUser = () => {
-    let element = document.createElement('div');
-    element.setAttribute('id', 'notify');
-    element.classList.add('notification');
-    element.classList.add('success');
-    element.innerHTML = 'Task Completed, Great Job!';
+  notifyUser = (props) => {
+    let node = document.createElement('div');
+    node.setAttribute('id', `notify-${props}`);
+    node.classList.add('notification');
 
-    document.getElementById("root").appendChild(element);
+    if(props === "success") {
+      node.classList.add('success');
+      node.innerHTML = 'Task Completed, Great Job!';
+    } else {
+      node.classList.add('danger');
+      node.innerHTML = 'You have failed to complete the task. Deleting failed tasks!';
+    }
+
+    document.getElementById("root").appendChild(node);
+    let delay = props === 'success' ? 3000 : 5000;
     let timeout;
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-      document.getElementById('notify').remove();
-    }, 3000);
+      document.getElementById(`notify-${props}`).remove();
+    }, delay);
   }
 
   removeData = (data) => {
     this.props.deleteFailedTask(data);
 
-    this.notifyfailedTask();
+    this.notifyUser("failed");
   }
-  notifyfailedTask = () => {
-    let element = document.createElement('div');
-    element.setAttribute('id', 'notify');
-    element.classList.add('notification');
-    element.classList.add('danger');
-    element.innerHTML = 'You have failed to complete the task. Deleting failed tasks!';
-
-    document.getElementById("root").appendChild(element);
-    let timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      document.getElementById('notify').remove();
-    }, 5000);
-  }
+  
   completedAll  = () => {
     let element = document.createElement('div');
     element.setAttribute('id', 'notify');
     element.classList.add('notification');
     element.classList.add('complete');
-    element.innerHTML = 'Congradulations. Progress is 100% complete';
+    element.innerHTML = 'All habits completed';
 
     document.getElementById("root").appendChild(element);
     let timeout;
@@ -96,13 +90,10 @@ class Homepage extends Component {
     }
   }
   
-
   render() {
     let { tasks: {collection = [], progress = []} } = this.props;
-    console.log(this.props);
-    console.log(collection);
     return (
-      <div style={{margin: '120px'}}>
+      <div className="container">
         <Button variant="contained" color="primary" onClick={this.handleOpen} size="large">
           Add Habit
         </Button>

@@ -1,23 +1,8 @@
 import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Button, Select, FormControl, InputLabel, MenuItem } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  formControl: {
-    width: '50%',
-  }
-}));
+import '../css/modal.css';
 
 function ChangeStatusModal({data, handleSubmit}) {
-  const classes = useStyles();
   const [item, setItem] = useState('');
   const handleChange = (e) => {
     setItem(e.target.value);
@@ -26,10 +11,10 @@ function ChangeStatusModal({data, handleSubmit}) {
     handleSubmit(item);
   }
   return (
-    <div className={classes.paper} style={{position: 'absolute',top: '20%', left: '30%', height: '250px', width: '500px'}}>
+    <div className="modal-change-status">
       <h4 id="simple-modal-title">Change Status</h4>
-      <div style={{marginTop: '48px'}}>
-        <FormControl className={classes.formControl}>
+      <div className="modal-wrapper">
+        <FormControl className="form-control">
           <InputLabel id="demo-simple-select-label">Status</InputLabel>
           <Select
               labelId="demo-simple-select-label"
@@ -47,8 +32,8 @@ function ChangeStatusModal({data, handleSubmit}) {
           </Select>
         </FormControl>
       </div>
-      <footer style={{position: 'absolute', bottom: '0', right: '0', marginRight: '16px', marginBottom: '16px'}} onClick={handleButtonClick}>
-        <Button variant="contained" color="primary" size="small">
+      <footer className="footer">
+        <Button variant="contained" color="primary" size="small" onClick={handleButtonClick}>
           Change
         </Button>
       </footer>

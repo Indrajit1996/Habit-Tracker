@@ -1,0 +1,26 @@
+.paper {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.paper > .table-container {
+  max-height: 330px;
+}
+
+.table-header > .table-header-row > .table-header-cell {
+  min-width: 170px;
+  text-align: center;
+}
+
+.table-row {
+  cursor: pointer;
+  text-align: center;
+}
+
+.table-row > .table-data-red {
+  color: #ff5722;
+}
+
+.table-row > .table-data {
+  color:rgba(0, 0, 0, 0.87);
+}

@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Table, 
   TableBody, TableCell,TableContainer, 
   TableHead, TablePagination, TableRow, 
   Modal } from '@material-ui/core';
-import ChangeStatus from './ChangeStatusModal'
+import ChangeStatus from './ChangeStatusModal';
+import '../css/table.css';
 
 const columns = [
   { id: 'value', label: 'Habit', minWidth: 170 },
@@ -12,20 +12,9 @@ const columns = [
   { id: 'status', label: 'Status', minWidth: 170, align: 'center' },
 ];
 
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-    marginTop: 30
-  },
-  container: {
-    maxHeight: 330,
-  },
-});
-
 export default function DisplayTable({data, updateStatus, expiredResult}) {
   const [show, setShow] = useState(false);
   const [rowClick, setRowClick] = useState({});
-  const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -40,7 +29,7 @@ export default function DisplayTable({data, updateStatus, expiredResult}) {
         expiredResult(end);
       }
     }
-    const interval = setInterval(itemExpiryCheck, 3600000); // Run the set Interval Every 1 hour.
+    const interval = setInterval(itemExpiryCheck, 3600000); // Run the set Interval every 1 hour.
     return () => clearInterval(interval);
   }
   
@@ -69,11 +58,11 @@ export default function DisplayTable({data, updateStatus, expiredResult}) {
   let rows = data;
   return (
     <React.Fragment>
-      <Paper className={classes.root}>
-        <TableContainer className={classes.container}>
+      <Paper className="paper">
+        <TableContainer className="table-container">
           <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
+            <TableHead className="table-header">
+              <TableRow className="table-header-row">
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
@@ -88,14 +77,14 @@ export default function DisplayTable({data, updateStatus, expiredResult}) {
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code} style={{cursor: 'pointer'}} onClick={(e) => {handleTableClick(e, row)}}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code} className="table-row" onClick={(e) => {handleTableClick(e, row)}}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         <TableCell 
                           key={column.id}
                           align={column.align} 
-                          style={{ color: column.id === 'status' ? '#ff5722' : 'rgba(0, 0, 0, 0.87)'}}>
+                          className={column.id === 'status' ? ' table-data-red' : 'table-data'}>
                           {column.format && typeof value === 'number' ? column.format(value) : value}
                         </TableCell>
                       );
